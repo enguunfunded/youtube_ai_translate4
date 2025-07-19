@@ -21,8 +21,12 @@ def main():
     print("3. Орчуулж байна...")
     mongolian_text = translate_text(english_text)
 
+    # 💾 Bark voice-д зориулж орчуулсан текстийг хадгалах
+    with open("temp/translated.txt", "w", encoding="utf-8") as f:
+        f.write(mongolian_text)
+
     print("4. Дуу хоолой үүсгэж байна...")
-    generate_voice(mongolian_text)
+    generate_voice(mongolian_text)  # Эндээс Bark ашиглах бол өөрчилж болно
 
     print("5. Subtitle үүсгэж байна...")
     create_srt(mongolian_text)
