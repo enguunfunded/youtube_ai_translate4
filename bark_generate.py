@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import soundfile as sf
 from bark import generate_audio, preload_models
-from numpy.core.multiarray import scalar  # Шинэчлэгдсэн
+from numpy.core.multiarray import scalar  # ✅ Зөв обьектоор оруулж байна
 
 # Torch model cache замууд
 os.environ["XDG_CACHE_HOME"] = "./bark_model"
