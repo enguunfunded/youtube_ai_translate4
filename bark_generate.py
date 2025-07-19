@@ -3,6 +3,7 @@ import torch
 import numpy as np
 import soundfile as sf
 from bark import generate_audio, preload_models
+from numpy.core.multiarray import scalar  # <-- Шинээр нэмэгдэнэ
 
 # Torch model cache замууд
 os.environ["XDG_CACHE_HOME"] = "./bark_model"
@@ -11,10 +12,7 @@ os.environ["TORCH_HOME"] = "./bark_model"
 
 # Torch pickle ачаалалтад зөвшөөрөгдөөгүй global-ууд whitelist хийх
 try:
-    torch.serialization._open_file = torch.serialization._open_file  # compatibility
-    torch.serialization.add_safe_globals({
-        "numpy.core.multiarray.scalar": np.core.multiarray.scalar
-    })
+    torch.serialization.add_safe_globals({'numpy.core.multiarray.scalar': scalar})
 except Exception as e:
     print("⚠️ Torch whitelist тохиргоо амжилтгүй:", e)
 
