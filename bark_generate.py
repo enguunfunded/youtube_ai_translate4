@@ -1,20 +1,19 @@
 import os
 import numpy as np
 import torch
-import torch.serialization
+import soundfile as sf
 
-# Torch Pickle алдаанаас сэргийлэх глобал зөвшөөрөл
+from bark import generate_audio, preload_models
+
+# Torch Pickle ачаалалт дэмжих тохиргоо (шинэ numpy хувилбарын тулд)
 torch.serialization._default_restore_location = lambda storage, location: storage
-torch.serialization.register_package('numpy.core.multiarray')
-torch.serialization.pickle._Unpickler.dispatch[np.core.multiarray.scalar.__reduce_ex__] = lambda self, protocol: (np.core.multiarray.scalar, ())
+torch.serialization.pickle.Unpickler.dispatch[np.core.multiarray.scalar.__reduce_ex__] = \
+    lambda self, protocol: (np.core.multiarray.scalar, ())
 
 # Загвар татах зам
 os.environ["XDG_CACHE_HOME"] = "./bark_model"
 os.environ["HF_HOME"] = "./bark_model"
 os.environ["TORCH_HOME"] = "./bark_model"
-
-from bark import generate_audio, preload_models
-import soundfile as sf
 
 # Загваруудыг ачаалах
 preload_models()
