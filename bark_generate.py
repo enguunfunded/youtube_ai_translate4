@@ -3,20 +3,20 @@ import torch
 import numpy as np
 import soundfile as sf
 from bark import generate_audio, preload_models
-from numpy.core.multiarray import scalar  # ✅ Зөв обьектоор оруулж байна
+from numpy.core.multiarray import scalar  # ✅ whitelist-д зөв импорт
 
-# Torch model cache замууд
+# Torch cache замууд
 os.environ["XDG_CACHE_HOME"] = "./bark_model"
 os.environ["HF_HOME"] = "./bark_model"
 os.environ["TORCH_HOME"] = "./bark_model"
 
-# Torch pickle whitelist тохиргоо
+# Torch pickle whitelist тохируулга
 try:
     torch.serialization.add_safe_globals({'numpy.core.multiarray.scalar': scalar})
 except Exception as e:
     print("⚠️ Torch whitelist тохиргоо амжилтгүй:", e)
 
-# Загвар ачаалах
+# Загваруудыг ачаалах
 preload_models()
 
 # Орчуулсан текст унших
@@ -30,3 +30,4 @@ audio_array = generate_audio(text)
 sf.write("temp/voice_bark.wav", audio_array, 24000)
 
 print("✅ voice_bark.wav файл амжилттай үүсгэгдлээ.")
+
