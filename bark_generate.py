@@ -11,18 +11,12 @@ os.environ["TORCH_HOME"] = "./bark_model"
 
 # Torch pickle ачаалалтад зөвшөөрөгдөөгүй global-ууд whitelist хийх
 try:
-    torch.serialization._open_file = torch.serialization._open_file  # for compatibility
-    torch.serialization.pickle._Unpickler = torch._utils._import_dotted_name(
-        "torch.serialization._open_file_like"
-    )
-    torch.serialization._legacy_load = lambda f, *args, **kwargs: torch.load(
-        f, *args, weights_only=False, **kwargs
-    )
-    torch.serialization.set_safe_globals({
+    torch.serialization._open_file = torch.serialization._open_file  # compatibility
+    torch.serialization.add_safe_globals({
         "numpy.core.multiarray.scalar": np.core.multiarray.scalar
     })
-except Exception:
-    pass  # Torch хувилбараас хамаарч өөр байх боломжтой
+except Exception as e:
+    print("⚠️ Torch whitelist тохиргоо амжилтгүй:", e)
 
 # Загвар ачаалах
 preload_models()
