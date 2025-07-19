@@ -1,16 +1,11 @@
 import os
-import numpy as np
 import torch
+import numpy as np
 import soundfile as sf
 
 from bark import generate_audio, preload_models
 
-# Torch Pickle ачаалалт дэмжих тохиргоо (шинэ numpy хувилбарын тулд)
-torch.serialization._default_restore_location = lambda storage, location: storage
-torch.serialization.pickle.Unpickler.dispatch[np.core.multiarray.scalar.__reduce_ex__] = \
-    lambda self, protocol: (np.core.multiarray.scalar, ())
-
-# Загвар татах зам
+# Torch model зам
 os.environ["XDG_CACHE_HOME"] = "./bark_model"
 os.environ["HF_HOME"] = "./bark_model"
 os.environ["TORCH_HOME"] = "./bark_model"
