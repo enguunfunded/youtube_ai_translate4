@@ -9,11 +9,20 @@ os.environ["XDG_CACHE_HOME"] = "./bark_model"
 os.environ["HF_HOME"] = "./bark_model"
 os.environ["TORCH_HOME"] = "./bark_model"
 
-# Torch pickle ачаалалтад зөвшөөрөгдөөгүй global-уудыг whitelist хийх
+# Torch pickle ачаалалтад зөвшөөрөгдөөгүй global-ууд whitelist хийх
 try:
-    torch.serialization._internal_torch_pickler._allowed_globals.add("numpy.core.multiarray.scalar")
+    torch.serialization._open_file = torch.serialization._open_file  # for compatibility
+    torch.serialization.pickle._Unpickler = torch._utils._import_dotted_name(
+        "torch.serialization._open_file_like"
+    )
+    torch.serialization._legacy_load = lambda f, *args, **kwargs: torch.load(
+        f, *args, weights_only=False, **kwargs
+    )
+    torch.serialization.set_safe_globals({
+        "numpy.core.multiarray.scalar": np.core.multiarray.scalar
+    })
 except Exception:
-    pass  # Torch хувилбараас хамаарч өөр байж болно
+    pass  # Torch хувилбараас хамаарч өөр байх боломжтой
 
 # Загвар ачаалах
 preload_models()
