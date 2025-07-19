@@ -1,0 +1,7 @@
+yt-dlp
+whisper
+openai
+deep-translator
+gtts
+ffmpeg-python
+moviepy
