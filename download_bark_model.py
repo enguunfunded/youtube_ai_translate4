@@ -6,10 +6,12 @@ model_dir = "./bark_model"
 os.makedirs(model_dir, exist_ok=True)
 
 model_files = [
-    "https://huggingface.co/suno/bark/resolve/main/config.json",
-    "https://huggingface.co/suno/bark/resolve/main/pytorch_model-00001-of-00002.bin",
-    "https://huggingface.co/suno/bark/resolve/main/pytorch_model-00002-of-00002.bin",
-    "https://huggingface.co/suno/bark/resolve/main/pytorch_model.bin.index.json"
+    "https://huggingface.co/suno/bark-small/resolve/main/config.json",
+    "https://huggingface.co/suno/bark-small/resolve/main/pytorch_model.bin",
+    "https://huggingface.co/suno/bark-small/resolve/main/tokenizer.json",
+    "https://huggingface.co/suno/bark-small/resolve/main/tokenizer_config.json",
+    "https://huggingface.co/suno/bark-small/resolve/main/preprocessor_config.json",
+    "https://huggingface.co/suno/bark-small/resolve/main/vocab.json"
 ]
 
 def download_file(url, save_dir):
@@ -28,4 +30,4 @@ def download_file(url, save_dir):
 for url in model_files:
     download_file(url, model_dir)
 
-print("\n✅ bark_model хавтас амжилттай бэлэн боллоо.")
+print("\n✅ bark_model хавтас bark-small модел ашиглан амжилттай бүрдлээ.")
